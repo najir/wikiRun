@@ -1,0 +1,15 @@
+{
+  "name": "wikirun",
+  "version": "1.0.0",
+  "description": "A simple Electron Application to load my local notes app via a desktop application",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Isaac Perks",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.1.1",
+    "electron": "^24.0.0"
+  }
+}
