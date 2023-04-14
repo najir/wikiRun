@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <link rel="stylesheet" href="main.css">
     <title>Set IP</title>
   </head>
   <body>
-    <p>Please enter {IP}:{PORT} of the wiki</p>
-    <p>If entered incorrectly, click set ip and start again</p>
+    <p>Please enter {IP}:{PORT} of the wiki. If entered incorrectly, click set ip and start again</p>
     <form>
       <input type="text" id="ipText" name="ipText" value="00.0.0.00:0000">
       <button type="button" id="ipButton">Confirm</button>

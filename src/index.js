@@ -100,8 +100,8 @@ const createWindow = () => {
 
   const createChildWindow = () => {
     const childWindow = new BrowserWindow({
-      width: 800,
-      height: 300,
+      width: 600,
+      height: 150,
       parent: this.win,
       show: false,
       modal: true,
