@@ -1,15 +1,7 @@
-const remote = require('electron').remote;
 
-document.getElementById('ipButton').addEventListener('click', ipSave);
-
-function ipSave(){
-    console.log(asdasd)
-    var window = remote.getCurrentWindow();
-    window.close();
-
+document.querySelector('#ipButton').addEventListener("click", () => {
     var ipValue = document.getElementById("ipText").value;
-    store.set('ipaddress', 'ipValue');
-    ipc.send('ipLoad');
-
-
-}
+    window.electron.store.set('ipaddress', ipValue);
+    window.electron.ipc.send('ipLoad');
+    window.electron.ipc.send('childClose');
+});

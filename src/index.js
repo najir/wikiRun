@@ -85,28 +85,28 @@ const menuTemplate = [
 const menu = Menu.buildFromTemplate(menuTemplate);
 Menu.setApplicationMenu(menu);
 
-let win
+let childWindow;
 const createWindow = () => {
-    const win = new BrowserWindow({
+    this.win = new BrowserWindow({
       width: 1200,
       height: 800,
       webPreferences: {
         preload: path.join(__dirname, 'preload.js')
       }
     })
-    win.setTitle('wikiRun');
-    win.loadFile('empty.html')
+    this.win.setTitle('wikiRun');
+    this.win.loadFile('empty.html');
   }
 
   const createChildWindow = () => {
     const childWindow = new BrowserWindow({
       width: 800,
       height: 300,
-      parent: win,
+      parent: this.win,
       show: false,
       modal: true,
       webPreferences: {
-        preload: path.join(__dirname, 'preload.js')
+        preload: path.join(__dirname, 'preload.js'),
       }
     })
     childWindow.removeMenu();
@@ -116,7 +116,16 @@ const createWindow = () => {
     childWindow.once("ready-to-show", () => {
       childWindow.show();
     });
+    ipcMain.on("childClose", (event, arg) => {
+      childWindow.close();
+    });
+
   }
+
+ipcMain.on("ipLoad", (event, arg) => {
+   console.log('1')
+   this.win.loadURL('http://' + store.get('ipaddress'));
+ });
 
   ipcMain.on("openChildWindow", (event, arg) => {
     createChildWindow();
@@ -126,9 +135,12 @@ const createWindow = () => {
     createChildWindow();
   }
 
-  ipcMain.on("ipLoad", (event, arg) => {
-    win.loadURL(store.get('ipaddress'))
-  });
+ipcMain.on('electron-store-get', async (event, val) => {
+   event.returnValue = store.get(val);
+});
+ipcMain.on('electron-store-set', async (event, key, val) => {
+   store.set(key, val);
+});
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
@@ -141,7 +153,8 @@ const createWindow = () => {
       })
     if(store.get('ipaddress') == null){
       createChildWindow();
-      console.log(store.get('ipaddress'))
+    }else{
+      this.win.loadURL('http://' + store.get('ipaddress'))
     }
   })
   
